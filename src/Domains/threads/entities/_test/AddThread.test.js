@@ -35,18 +35,6 @@ describe('a AddThread entities', () => {
     expect(() => new AddThread(payload)).toThrowError('ADD_THREAD.TITLE_LIMIT_CHAR');
   });
 
-  it('should throw error when title contains restricted character', () => {
-    // Arrange
-    const payload = {
-      title: 'dico ding',
-      body: 'dicoding',
-      owner: 'user-123'
-    };
-
-    // Action and Assert
-    expect(() => new AddThread(payload)).toThrowError('ADD_THREAD.TITLE_CONTAIN_RESTRICTED_CHARACTER');
-  });
-
   it('should create AddThread object correctly', () => {
     // Arrange
     const payload = {
