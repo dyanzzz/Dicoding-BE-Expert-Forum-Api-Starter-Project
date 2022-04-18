@@ -16,6 +16,7 @@ describe('a AddThread entities', () => {
     const payload = {
       title: 123,
       body: true,
+      owner: 'user-123'
     };
 
     // Action and Assert
@@ -27,6 +28,7 @@ describe('a AddThread entities', () => {
     const payload = {
       title: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
       body: 'Dicoding Indonesia',
+      owner: 'user-123'
     };
 
     // Action and Assert
@@ -38,6 +40,7 @@ describe('a AddThread entities', () => {
     const payload = {
       title: 'dico ding',
       body: 'dicoding',
+      owner: 'user-123'
     };
 
     // Action and Assert
@@ -49,6 +52,7 @@ describe('a AddThread entities', () => {
     const payload = {
       title: 'dicoding',
       body: 'Dicoding Indonesia',
+      owner: 'user-123'
     };
 
     // Action

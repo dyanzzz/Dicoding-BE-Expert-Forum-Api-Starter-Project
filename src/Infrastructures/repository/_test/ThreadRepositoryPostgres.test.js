@@ -23,7 +23,7 @@ describe('ThreadRepositoryPostgres', () => {
   describe('verifyAvailableTitle function', () => {
     it('should throw InvariantError when username not available', async () => {
       // Arrange
-      await ThreadsTableTestHelper.addThread({ title: 'dicoding' });
+      await ThreadsTableTestHelper.addThread({ title: 'dicoding', owner: 'user-123' });
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
@@ -44,14 +44,14 @@ describe('ThreadRepositoryPostgres', () => {
       // Arrange
       const addThread = new AddThread({
         title: 'dicoding',
-        body: 'ini testing body'
+        body: 'ini testing body',
+        owner: 'user-123'
       });
-      const userId = 'user-123';
       const fakeIdGenerator = () => '123'; // stub!
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      await threadRepositoryPostgres.addThread(addThread, userId);
+      await threadRepositoryPostgres.addThread(addThread);
 
       // Assert
       const thread = await ThreadsTableTestHelper.findThreadsById('thread-123');
@@ -62,14 +62,15 @@ describe('ThreadRepositoryPostgres', () => {
       // Arrange
       const addThread = new AddThread({
         title: 'dicoding',
-        body: 'ini testing body'
+        body: 'ini testing body',
+        owner: 'user-123'
       });
-      const userId = 'user-123';
+
       const fakeIdGenerator = () => '123'; // stub!
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      const addedThread = await threadRepositoryPostgres.addThread(addThread, userId);
+      const addedThread = await threadRepositoryPostgres.addThread(addThread);
 
       // Assert
       expect(addedThread).toStrictEqual(new AddedThread({
