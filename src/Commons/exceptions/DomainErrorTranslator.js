@@ -24,6 +24,9 @@ DomainErrorTranslator._directories = {
   'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('harus mengirimkan payload dengan properti yang lengkap'),
   'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('setiap payload harus bertipe string'),
   'ADD_THREAD.TITLE_LIMIT_CHAR': new InvariantError('tidak dapat membuat thread baru karena karakter melebihi batas limit'),
+
+  'ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('harus mengirimkan payload dengan properti yang lengkap'),
+  'ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('setiap payload harus bertipe string'),
 };
 
 module.exports = DomainErrorTranslator;
