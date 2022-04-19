@@ -20,10 +20,22 @@ describe('DetailThreadUseCase', () => {
         id: "comment-123",
         username: "dicoding",
         date: "2021-08-08T07:22:33.555Z",
-        content: "sebuah comment"
+        content: "sebuah comment",
+        is_delete: false,
+      },
+      {
+        id: "comment-124",
+        username: "dicoding",
+        date: "2021-08-08T07:22:33.555Z",
+        content: "sebuah comment",
+        is_delete: true,
       },
     ];
-
+    comments.forEach((row, i) => {
+      const content = (row.is_delete) ? "**komentar telah dihapus**" : row.content
+      comments[i].content = content
+    });
+    
     payload.comments = comments
 
     const expectedGetedThread = new GetedThread(payload);

@@ -2,6 +2,7 @@ const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const pool = require('../../database/postgres/pool');
@@ -107,7 +108,35 @@ describe('CommentRepositoryPostgres', () => {
       });
 
       // Action & Assert
-      const thread = await commentRepositoryPostgres.getCommentById('comment-123', 'user-123');
+      const thread = await commentRepositoryPostgres.getCommentById('comment-123');
+      expect(thread.content).toBe('dicoding');
+    });
+  });
+
+  describe('verifyCommentOwner function', () => {
+    it('should throw AuthorizationError when comment not authorize', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(commentRepositoryPostgres.verifyCommentOwner('comment-123', 'user-123'))
+        .rejects
+        .toThrowError(AuthorizationError);
+    });
+
+    it('should return all fields comment when comment is authorize', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        owner: 'user-123'
+      });
+
+      // Action & Assert
+      const thread = await commentRepositoryPostgres.verifyCommentOwner('comment-123', 'user-123');
       expect(thread.content).toBe('dicoding');
     });
   });
