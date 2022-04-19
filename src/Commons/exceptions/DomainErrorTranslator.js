@@ -30,6 +30,9 @@ DomainErrorTranslator._directories = {
 
   'DELETE_THREAD_USE_CASE.NOT_CONTAIN_PARAMETER': new InvariantError('harus mengirimkan parameter dengan benar'),
   'DELETE_THREAD_USE_CASE.PARAMETER_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('setiap parameter harus bertipe string'),
+
+  'REPLY.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('harus mengirimkan payload dengan properti yang lengkap'),
+  'REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('setiap payload harus bertipe string'),
 };
 
 module.exports = DomainErrorTranslator;

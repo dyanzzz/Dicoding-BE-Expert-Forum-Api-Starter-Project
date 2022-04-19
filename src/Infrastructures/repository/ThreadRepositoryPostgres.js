@@ -58,7 +58,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
       text: `SELECT commen.id, commen.content, commen.date, users.username, commen.is_delete
           FROM comments as commen
           LEFT JOIN users ON commen.owner = users.id
-          WHERE commen.thread_id = $1`,
+          WHERE commen.thread_id = $1 ORDER BY commen.date ASC`,
       values: [id],
     };
 
