@@ -28,6 +28,11 @@ describe('DomainErrorTranslator', () => {
       .toStrictEqual(new InvariantError('setiap payload harus bertipe string'));
     expect(DomainErrorTranslator.translate(new Error('ADD_THREAD.TITLE_LIMIT_CHAR')))
       .toStrictEqual(new InvariantError('tidak dapat membuat thread baru karena karakter melebihi batas limit'));
+
+    expect(DomainErrorTranslator.translate(new Error('ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY')))
+      .toStrictEqual(new InvariantError('harus mengirimkan payload dengan properti yang lengkap'));
+    expect(DomainErrorTranslator.translate(new Error('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION')))
+      .toStrictEqual(new InvariantError('setiap payload harus bertipe string'));
   });
 
   it('should return original error when error message is not needed to translate', () => {
