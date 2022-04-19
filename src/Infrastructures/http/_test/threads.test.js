@@ -44,6 +44,36 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.addedThread).toBeDefined();
     });
 
+    it('should response 200 and persisted detail threads', async () => {
+      // eslint-disable-next-line no-undef
+      const accessToken = await ServerTestHelper.getAccessToken();
+      const server = await createServer(container);
+
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        title: 'dicoding',
+        body: 'ini body thread',
+        date: '2022-04-19 04:18:51.806',
+        owner: 'user-123'
+      })
+      const threadId = 'thread-123';
+
+      // Action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/threads/${threadId}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual('success');
+      expect(responseJson.data.thread).toBeDefined();
+    });
+
     it('should response 400 when request payload not contain needed property', async () => {
       // Arrange
       const requestPayload = {
