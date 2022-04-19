@@ -1,4 +1,5 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const AddThread = require('../../../Domains/threads/entities/AddThread');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
@@ -26,6 +27,7 @@ describe('ThreadRepositoryPostgres', () => {
       const addThread = new AddThread({
         title: 'dicoding',
         body: 'ini testing body',
+        date: '2022-04-19 04:18:51.806',
         owner: 'user-123'
       });
       const fakeIdGenerator = () => '123'; // stub!
@@ -44,6 +46,7 @@ describe('ThreadRepositoryPostgres', () => {
       const addThread = new AddThread({
         title: 'dicoding',
         body: 'ini testing body',
+        date: '2022-04-19 04:18:51.806',
         owner: 'user-123'
       });
 
@@ -80,12 +83,52 @@ describe('ThreadRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'dicoding',
         body: 'ini body thread',
+        date: '2022-04-19 04:18:51.806',
         owner: 'user-123'
       });
 
       // Action & Assert
       const thread = await threadRepositoryPostgres.getThreadById('thread-123');
       expect(thread.title).toBe('dicoding');
+    });
+  });
+
+  describe('getDetailThreadById', () => {
+    it('should throw InvariantError when id not found', () => {
+      // Arrange
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(threadRepositoryPostgres.getDetailThreadById('thread-123'))
+        .rejects
+        .toThrowError(NotFoundError);
+    });
+    
+    it('should return all fields threads when id is found', async () => {
+      // Arrange
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        title: 'dicoding',
+        body: 'ini body thread',
+        date: '2022-04-19 04:18:51.806',
+        owner: 'user-123'
+      });
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123', 
+        content: 'dicoding', 
+        date: '2021-08-08T07:26:21.338Z',
+        threadId: 'thread-123',
+        owner: 'user-123',
+      });
+
+      // Action & Assert
+      const getCommentById = await CommentsTableTestHelper.findCommentById('comment-123')
+      const thread = await threadRepositoryPostgres.getDetailThreadById('thread-123');
+      expect(thread.title).toBe('dicoding');
+      
+      expect(thread.comments[0].id).toEqual(getCommentById[0].id);
     });
   });
 });

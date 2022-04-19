@@ -12,10 +12,11 @@ class ThreadRepositoryPostgres extends ThreadRepository {
   async addThread(payloadThread) {
     const { title, body, owner } = payloadThread;
     const id = `thread-${this._idGenerator()}`;
+    const date = new Date();
 
     const query = {
-      text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING id, title, owner',
-      values: [id, title, body, owner],
+      text: 'INSERT INTO threads VALUES($1, $2, $3, $4, $5) RETURNING id, title, owner',
+      values: [id, title, body, date, owner],
     };
 
     const result = await this._pool.query(query);
@@ -34,6 +35,36 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     if (!result.rowCount) {
       throw new NotFoundError('ThreadId tidak ditemukan');
     }
+
+    return result.rows[0];
+  }
+  
+  async getDetailThreadById(id) {
+    const query = {
+      text: `SELECT threads.id, threads.title, threads.body, threads.date, threads.owner, users.username
+          FROM threads
+          LEFT JOIN users ON users.id = threads.owner
+          WHERE threads.id = $1`,
+      values: [id],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rowCount) {
+      throw new NotFoundError('ThreadId tidak ditemukan');
+    }
+
+    const queryComment = {
+      text: `SELECT commen.id, commen.content, commen.date, users.username
+          FROM comments as commen
+          LEFT JOIN users ON commen.owner = users.id
+          WHERE commen.thread_id = $1`,
+      values: [id],
+    };
+
+    const resultComment = await this._pool.query(queryComment);
+
+    result.rows[0].comments = resultComment.rows
 
     return result.rows[0];
   }
