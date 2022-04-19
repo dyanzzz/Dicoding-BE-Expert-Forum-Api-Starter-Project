@@ -1,10 +1,10 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
-const InvariantError = require('../../../Commons/exceptions/InvariantError');
 const AddThread = require('../../../Domains/threads/entities/AddThread');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 const pool = require('../../database/postgres/pool');
 const ThreadRepositoryPostgres = require('../ThreadRepositoryPostgres');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 
 describe('ThreadRepositoryPostgres', () => {
   beforeEach(async () => {
@@ -70,7 +70,7 @@ describe('ThreadRepositoryPostgres', () => {
       // Action & Assert
       return expect(threadRepositoryPostgres.getThreadById('thread-123'))
         .rejects
-        .toThrowError(InvariantError);
+        .toThrowError(NotFoundError);
     });
 
     it('should return all fields threads when id is found', async () => {
