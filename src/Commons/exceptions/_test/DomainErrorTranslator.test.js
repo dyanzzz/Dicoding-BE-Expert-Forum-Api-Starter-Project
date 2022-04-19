@@ -33,6 +33,11 @@ describe('DomainErrorTranslator', () => {
       .toStrictEqual(new InvariantError('harus mengirimkan payload dengan properti yang lengkap'));
     expect(DomainErrorTranslator.translate(new Error('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION')))
       .toStrictEqual(new InvariantError('setiap payload harus bertipe string'));
+
+    expect(DomainErrorTranslator.translate(new Error('DELETE_THREAD_USE_CASE.NOT_CONTAIN_PARAMETER')))
+      .toStrictEqual(new InvariantError('harus mengirimkan parameter dengan benar'));
+    expect(DomainErrorTranslator.translate(new Error('DELETE_THREAD_USE_CASE.PARAMETER_NOT_MEET_DATA_TYPE_SPECIFICATION')))
+      .toStrictEqual(new InvariantError('setiap parameter harus bertipe string'));
   });
 
   it('should return original error when error message is not needed to translate', () => {
