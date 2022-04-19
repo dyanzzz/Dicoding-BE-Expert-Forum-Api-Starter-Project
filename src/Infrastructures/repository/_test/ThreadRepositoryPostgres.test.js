@@ -20,25 +20,6 @@ describe('ThreadRepositoryPostgres', () => {
     await pool.end();
   });
 
-  describe('verifyAvailableTitle function', () => {
-    it('should throw InvariantError when username not available', async () => {
-      // Arrange
-      await ThreadsTableTestHelper.addThread({ title: 'dicoding', owner: 'user-123' });
-      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
-
-      // Action & Assert
-      await expect(threadRepositoryPostgres.verifyAvailableTitle('dicoding')).rejects.toThrowError(InvariantError);
-    });
-
-    it('should not throw InvariantError when title available', async () => {
-      // Arrange
-      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
-
-      // Action & Assert
-      await expect(threadRepositoryPostgres.verifyAvailableTitle('dicoding available testing thread')).resolves.not.toThrowError(InvariantError);
-    });
-  });
-
   describe('addThread function', () => {
     it('should persist add thread and return thread correctly', async () => {
       // Arrange
