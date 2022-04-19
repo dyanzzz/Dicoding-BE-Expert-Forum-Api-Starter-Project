@@ -7,10 +7,6 @@ const container = require('../../container');
 const createServer = require('../createServer');
 
 describe('/threads endpoint', () => {
-  beforeEach(async () => {
-    await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
-  });
-
   afterAll(async () => {
     await pool.end();
   });
@@ -31,6 +27,7 @@ describe('/threads endpoint', () => {
 
       // eslint-disable-next-line no-undef
       const accessToken = await ServerTestHelper.getAccessToken();
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       const server = await createServer(container);
 
       // Action
@@ -56,6 +53,7 @@ describe('/threads endpoint', () => {
       const threadId = 'thread-123'
 
       const accessToken = await ServerTestHelper.getAccessToken();
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       const server = await createServer(container);
   
       // Action
@@ -83,6 +81,7 @@ describe('/threads endpoint', () => {
       const threadId = 'thread-123'
 
       const accessToken = await ServerTestHelper.getAccessToken();
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       const server = await createServer(container);
   
       // Action
@@ -94,7 +93,7 @@ describe('/threads endpoint', () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+      
       // Assert
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(400);
