@@ -4,7 +4,14 @@ class DetailThreadUseCase {
   }
 
   async execute(threadId) {
-    return this._threadRepository.getDetailThreadById(threadId);
+    const thread = await this._threadRepository.getDetailThreadById(threadId);
+
+    thread.comments.forEach((row, i) => {
+      const content = (row.is_delete) ? "**komentar telah dihapus**" : row.content
+      thread.comments[i].content = content
+    });
+
+    return thread;
   }
 }
 

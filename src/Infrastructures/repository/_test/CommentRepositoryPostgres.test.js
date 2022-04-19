@@ -107,7 +107,7 @@ describe('CommentRepositoryPostgres', () => {
       });
 
       // Action & Assert
-      const thread = await commentRepositoryPostgres.getCommentById('comment-123');
+      const thread = await commentRepositoryPostgres.getCommentById('comment-123', 'user-123');
       expect(thread.content).toBe('dicoding');
     });
   });

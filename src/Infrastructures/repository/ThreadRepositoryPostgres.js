@@ -55,7 +55,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     }
 
     const queryComment = {
-      text: `SELECT commen.id, commen.content, commen.date, users.username
+      text: `SELECT commen.id, commen.content, commen.date, users.username, commen.is_delete
           FROM comments as commen
           LEFT JOIN users ON commen.owner = users.id
           WHERE commen.thread_id = $1`,

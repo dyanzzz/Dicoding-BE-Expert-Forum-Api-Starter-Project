@@ -28,6 +28,7 @@ class ThreadsHandler {
     const detailThreadUseCase = this._container.getInstance(DetailThreadUseCase.name);
     const { threadId } = request.params
     const thread = await detailThreadUseCase.execute(threadId);
+    const isDelete = thread.comments
 
     const response = h.response({
       status: 'success',
