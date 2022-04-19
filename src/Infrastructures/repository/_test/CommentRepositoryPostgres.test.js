@@ -1,7 +1,7 @@
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
-const InvariantError = require('../../../Commons/exceptions/InvariantError');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const pool = require('../../database/postgres/pool');
@@ -80,7 +80,35 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       const comment = await CommentsTableTestHelper.findCommentById('comment-123');
-      expect(comment).toHaveLength(0);
+      expect(comment[0].is_delete).toEqual(true);
+    });
+  });
+
+  describe('getCommentById function', () => {
+    it('should throw NotFoundError when id not found', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(commentRepositoryPostgres.getCommentById('comment-123'))
+        .rejects
+        .toThrowError(NotFoundError);
+    });
+
+    it('should return all fields comment when id is found', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        owner: 'user-123'
+      });
+
+      // Action & Assert
+      const thread = await commentRepositoryPostgres.getCommentById('comment-123');
+      expect(thread.content).toBe('dicoding');
     });
   });
 

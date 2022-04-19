@@ -1,4 +1,5 @@
 const AddedComment = require('../../Domains/comments/entities/AddedComment');
+const NotFoundError = require('../../Commons/exceptions/NotFoundError');
 const CommentsRepository = require('../../Domains/comments/CommentsRepository');
 
 class CommentRepositoryPostgres extends CommentsRepository {
@@ -25,11 +26,26 @@ class CommentRepositoryPostgres extends CommentsRepository {
 
   async deleteComment(commentId) {
     const query = {
-      text: `DELETE FROM "comments" WHERE id=$1`,
+      text: `UPDATE "comments" SET is_delete=true WHERE id=$1`,
       values: [commentId],
     };
 
     await this._pool.query(query);
+  }
+
+  async getCommentById(commentId) {
+    const query = {
+      text: `SELECT * FROM comments WHERE id=$1`,
+      values: [commentId],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rowCount) {
+      throw new NotFoundError('Comment id tidak ditemukan')
+    }
+
+    return result.rows[0];
   }
 }
 
