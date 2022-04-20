@@ -7,6 +7,7 @@ const AddedReply = require('../../../Domains/replies/entities/AddedReply');
 const pool = require('../../database/postgres/pool');
 const ReplyRepositoryPostgres = require('../ReplyRepositoryPostgres');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 
 describe('ReplyRepositoryPostgres', () => {
   beforeEach(async () => {
@@ -83,6 +84,64 @@ describe('ReplyRepositoryPostgres', () => {
       // Assert
       const reply = await RepliesTableTestHelper.findReplyById('reply-123');
       expect(reply[0].is_delete).toEqual(true);
+    });
+  });
+
+  describe('getReplyById function', () => {
+    it('should throw NotFoundError when id not found', async () => {
+      // Arrange
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(replyRepositoryPostgres.getReplyById('reply-123'))
+        .rejects
+        .toThrowError(NotFoundError);
+    });
+
+    it('should return all fields reply when id is found', async () => {
+      // Arrange
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+      await RepliesTableTestHelper.addReply({
+        id: 'reply-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        commentId: 'comment-123',
+        owner: 'user-123'
+      });
+
+      // Action & Assert
+      const thread = await replyRepositoryPostgres.getReplyById('reply-123');
+      expect(thread.content).toBe('dicoding');
+    });
+  });
+
+  describe('verifyReplyOwner function', () => {
+    it('should throw AuthorizationError when reply not authorize', async () => {
+      // Arrange
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(replyRepositoryPostgres.verifyReplyOwner('reply-123', 'user-123'))
+        .rejects
+        .toThrowError(AuthorizationError);
+    });
+
+    it('should return all fields reply when reply is authorize', async () => {
+      // Arrange
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+      await RepliesTableTestHelper.addReply({
+        id: 'reply-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        commentId: 'comment-123',
+        owner: 'user-123'
+      });
+
+      // Action & Assert
+      const thread = await replyRepositoryPostgres.verifyReplyOwner('reply-123', 'user-123');
+      expect(thread.content).toBe('dicoding');
     });
   });
 
