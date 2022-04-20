@@ -1,4 +1,4 @@
-const ReplyTableTestHelper = require('../../../../tests/ReplyTableTestHelper');
+const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
@@ -16,7 +16,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   afterEach(async () => {
-    await ReplyTableTestHelper.cleanTable();
+    await RepliesTableTestHelper.cleanTable();
     await CommentsTableTestHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
     await UsersTableTestHelper.cleanTable();
@@ -42,7 +42,7 @@ describe('ReplyRepositoryPostgres', () => {
       await replyRepositoryPostgres.addReply(addReply);
 
       // Assert
-      const reply = await ReplyTableTestHelper.findReplyById('reply-123');
+      const reply = await RepliesTableTestHelper.findReplyById('reply-123');
       expect(reply).toHaveLength(1);
     });
 
@@ -74,14 +74,14 @@ describe('ReplyRepositoryPostgres', () => {
     it('should persist delete reply and return thread correctly', async () => {
       // Arrange
       const replyId = 'reply-123'
-      await ReplyTableTestHelper.addReply({ id: replyId });
+      await RepliesTableTestHelper.addReply({ id: replyId });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       // Action
       await replyRepositoryPostgres.deleteReplyById(replyId);
 
       // Assert
-      const reply = await ReplyTableTestHelper.findReplyById('reply-123');
+      const reply = await RepliesTableTestHelper.findReplyById('reply-123');
       expect(reply[0].is_delete).toEqual(true);
     });
   });

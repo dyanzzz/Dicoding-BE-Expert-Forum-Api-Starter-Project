@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
-const ReplyTableTestHelper = {
+const RepliesTableTestHelper = {
   async addReply({
     id = 'reply-123', 
     content = 'dicoding', 
@@ -33,4 +33,4 @@ const ReplyTableTestHelper = {
   },
 };
 
-module.exports = ReplyTableTestHelper;
+module.exports = RepliesTableTestHelper;
