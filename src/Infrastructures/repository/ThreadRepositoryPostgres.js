@@ -54,18 +54,6 @@ class ThreadRepositoryPostgres extends ThreadRepository {
       throw new NotFoundError('ThreadId tidak ditemukan');
     }
 
-    const queryComment = {
-      text: `SELECT commen.id, commen.content, commen.date, users.username, commen.is_delete
-          FROM comments as commen
-          LEFT JOIN users ON commen.owner = users.id
-          WHERE commen.thread_id = $1 ORDER BY commen.date ASC`,
-      values: [id],
-    };
-
-    const resultComment = await this._pool.query(queryComment);
-
-    result.rows[0].comments = resultComment.rows
-
     return result.rows[0];
   }
 }

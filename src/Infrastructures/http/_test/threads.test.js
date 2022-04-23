@@ -1,5 +1,7 @@
 const pool = require('../../database/postgres/pool');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
+const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ServerTestHelper = require('../../../../tests/ServerTestHelper');
 const container = require('../../container');
@@ -56,6 +58,23 @@ describe('/threads endpoint', () => {
         date: '2022-04-19 04:18:51.806',
         owner: 'user-123'
       })
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        owner: 'user-123'
+      })
+
+      await RepliesTableTestHelper.addReply({
+        id: 'reply-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        owner: 'user-123',
+        thread: 'thread-123',
+        comment: 'comment-123'
+      })
       const threadId = 'thread-123';
 
       // Action
@@ -72,6 +91,8 @@ describe('/threads endpoint', () => {
       expect(response.statusCode).toEqual(200);
       expect(responseJson.status).toEqual('success');
       expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
     });
 
     it('should response 400 when request payload not contain needed property', async () => {

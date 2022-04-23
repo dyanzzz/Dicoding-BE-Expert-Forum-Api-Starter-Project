@@ -1,17 +1,31 @@
+const CommentDetail = require('../../Domains/comments/entities/CommentDetail')
+const ReplyDetail = require('../../Domains/replies/entities/ReplyDetail')
+
 class DetailThreadUseCase {
-  constructor({ threadRepository }) {
+  constructor({ threadRepository, commentRepository, replyRepository }) {
     this._threadRepository = threadRepository;
+    this._commentRepository = commentRepository;
+    this._replyRepository = replyRepository;
   }
 
   async execute(threadId) {
     const thread = await this._threadRepository.getDetailThreadById(threadId);
-
-    thread.comments.forEach((row, i) => {
-      const content = (row.is_delete) ? "**komentar telah dihapus**" : row.content
-      thread.comments[i].content = content
-    });
+    const comments = await this._commentRepository.getCommentByThreadId(threadId);
+    const replies = await this._replyRepository.getRepliesByThreadId(threadId);
+    
+    thread.comments = this._getCommentAndReplies(comments, replies)
 
     return thread;
+  }
+
+  _getCommentAndReplies(comments, replies) {
+    return comments.map((comment) => {
+        comment.replies = replies
+            .filter((reply) => reply.comment_id === comment.id)
+            .map((repl) => new ReplyDetail(repl));
+
+        return new CommentDetail(comment);
+    });
   }
 }
 
