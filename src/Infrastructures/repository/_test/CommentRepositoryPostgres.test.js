@@ -141,4 +141,37 @@ describe('CommentRepositoryPostgres', () => {
     });
   });
 
+  describe('getCommentByThreadId function', () => {
+    it('should throw NotFoundError when id not found', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      return expect(await commentRepositoryPostgres.getCommentByThreadId('zzz')).toHaveLength(0);
+    });
+
+    it('should return all fields comment when id is found', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        threadId: 'thread-123',
+        owner: 'user-123'
+      });
+
+      // Action & Assert
+      const thread = await commentRepositoryPostgres.getCommentByThreadId('thread-123');
+      expect(thread[0].content).toBe('dicoding');
+      expect(thread[0]).toEqual({
+        id: 'comment-123',
+        content: 'dicoding',
+        date: '2022-04-19 04:18:51.806',
+        is_delete: false,
+        username: 'dicoding'
+      })
+    });
+  });
+
 });

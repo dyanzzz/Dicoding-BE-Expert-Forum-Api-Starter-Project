@@ -124,11 +124,13 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       // Action & Assert
-      const getCommentById = await CommentsTableTestHelper.findCommentById('comment-123')
       const thread = await threadRepositoryPostgres.getDetailThreadById('thread-123');
       expect(thread.title).toBe('dicoding');
-      
-      expect(thread.comments[0].id).toEqual(getCommentById[0].id);
+      expect(thread).toHaveProperty('id', 'thread-123');
+      expect(thread).toHaveProperty('title', 'dicoding');
+      expect(thread).toHaveProperty('body', 'ini body thread');
+      expect(thread).toHaveProperty('username', 'dicoding');
+      expect(thread).toHaveProperty('date');
     });
   });
 });
