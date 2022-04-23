@@ -18,21 +18,19 @@ describe('AddReplyUseCase', () => {
       commentId
     };
 
-    const expectedAddedReply = new AddedReply({
-      id: 'reply-123',
-      content: useCasePayload.content,
-      owner: useCasePayload.owner,
-    });
-
     /** creating dependency of use case */
     const mockThreadRepository = new ThreadRepository();
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
 
     /** mocking needed function */
-    mockThreadRepository.getThreadById = jest.fn().mockImplementation(() => Promise.resolve());
-    mockCommentRepository.getCommentById = jest.fn().mockImplementation(() => Promise.resolve());
-    mockReplyRepository.addReply = jest.fn().mockImplementation(() => Promise.resolve(expectedAddedReply));
+    mockThreadRepository.getThreadById = jest.fn(() => Promise.resolve());
+    mockCommentRepository.getCommentById = jest.fn(() => Promise.resolve());
+    mockReplyRepository.addReply = jest.fn(() => Promise.resolve({
+      id: 'reply-123',
+      content: useCasePayload.content,
+      owner: useCasePayload.owner,
+    }));
 
     /** creating use case instance */
     const getReplyUseCase = new AddReplyUseCase({
@@ -45,7 +43,11 @@ describe('AddReplyUseCase', () => {
     const addedReply = await getReplyUseCase.execute(useCasePayload, useCasePayload.owner, useCasePayload.threadId, useCasePayload.commentId);
 
     // Assert
-    expect(addedReply).toStrictEqual(expectedAddedReply);
+    expect(addedReply).toStrictEqual({
+      id: 'reply-123',
+      content: useCasePayload.content,
+      owner: useCasePayload.owner,
+    });
     expect(mockThreadRepository.getThreadById).toBeCalledWith(useCasePayload.threadId);
     expect(mockCommentRepository.getCommentById).toBeCalledWith(useCasePayload.commentId);
     expect(mockReplyRepository.addReply).toBeCalledWith(new AddReply({

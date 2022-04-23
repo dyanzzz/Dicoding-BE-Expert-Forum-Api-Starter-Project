@@ -62,7 +62,7 @@ describe('DetailThreadUseCase', () => {
     const mockReplyRepository = new ReplyRepository();
 
     /** mocking needed function */
-    mockThreadRepository.getDetailThreadById = jest.fn(() => Promise.resolve({
+    mockThreadRepository.getThreadById = jest.fn(() => Promise.resolve({
       id: 'thread-123',
       title: 'dicoding',
       body: 'Dicoding-Indonesia',
@@ -122,7 +122,7 @@ describe('DetailThreadUseCase', () => {
     expect(gettedThread.id).toEqual(expectedThreadDetails.id);
     expect(gettedThread.body).toEqual(expectedThreadDetails.body);
     expect(gettedThread.date).toEqual(expectedThreadDetails.date);
-    expect(mockThreadRepository.getDetailThreadById).toBeCalledWith(threadId);
+    expect(mockThreadRepository.getThreadById).toBeCalledWith(threadId);
     expect(mockCommentRepository.getCommentByThreadId).toBeCalledWith(threadId);
     expect(mockReplyRepository.getRepliesByThreadId).toBeCalledWith(threadId);
   });

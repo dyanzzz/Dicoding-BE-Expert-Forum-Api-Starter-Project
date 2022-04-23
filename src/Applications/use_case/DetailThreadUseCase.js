@@ -9,7 +9,7 @@ class DetailThreadUseCase {
   }
 
   async execute(threadId) {
-    const thread = await this._threadRepository.getDetailThreadById(threadId);
+    const thread = await this._threadRepository.getThreadById(threadId);
     const comments = await this._commentRepository.getCommentByThreadId(threadId);
     const replies = await this._replyRepository.getRepliesByThreadId(threadId);
     

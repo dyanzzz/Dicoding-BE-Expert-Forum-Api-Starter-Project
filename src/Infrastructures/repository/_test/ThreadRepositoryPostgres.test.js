@@ -99,7 +99,7 @@ describe('ThreadRepositoryPostgres', () => {
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
-      return expect(threadRepositoryPostgres.getDetailThreadById('thread-123'))
+      return expect(threadRepositoryPostgres.getThreadById('thread-123'))
         .rejects
         .toThrowError(NotFoundError);
     });
@@ -124,7 +124,7 @@ describe('ThreadRepositoryPostgres', () => {
       });
 
       // Action & Assert
-      const thread = await threadRepositoryPostgres.getDetailThreadById('thread-123');
+      const thread = await threadRepositoryPostgres.getThreadById('thread-123');
       expect(thread.title).toBe('dicoding');
       expect(thread).toHaveProperty('id', 'thread-123');
       expect(thread).toHaveProperty('title', 'dicoding');
