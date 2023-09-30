@@ -12,7 +12,7 @@ describe('DetailThreadUseCase', () => {
     // Arrange
     const threadId = 'thread-123'
     
-    const expectedThreadDetails = new DetailThread({
+    const expectedThreadDetails = {
       id: threadId,
       title: 'dicoding',
       body: 'Dicoding-Indonesia',
@@ -52,7 +52,7 @@ describe('DetailThreadUseCase', () => {
               ],
           }),
       ],
-    });
+    };
     
     //const expectedGetedThread = new GetedThread(expectedThreadDetails);
 

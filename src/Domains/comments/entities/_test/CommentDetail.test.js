@@ -46,4 +46,48 @@ describe('a CommentDetail entities', () => {
     expect(username).toEqual(payload.username);
   });
 
+  it('should create CommentDetail object when comment is deleted correctly', () => {
+    // Arrange
+    const payload = {
+      id: 'comment-123',
+      content: 'dicoding',
+      date: '2022-04-21T14:47:50.725+07:00',
+      username: 'dicoding',
+      is_delete: true,
+      replies: []
+    };
+  
+    // Action
+    const { id, content, date, username, replies } = new CommentDetail(payload);
+  
+    // Assert
+    expect(id).toEqual('comment-123');
+    expect(content).toEqual('**komentar telah dihapus**');
+    expect(date).toEqual('2022-04-21T14:47:50.725+07:00');
+    expect(username).toEqual('dicoding');
+    expect(replies).toEqual([]);
+  });
+  
+  it('should create CommentDetail object when comment is not deleted correctly', () => { 
+    // Arrange
+    const payload = {
+      id: 'comment-123',
+      content: 'dicoding',
+      date: '2022-04-21T14:47:50.725+07:00',
+      username: 'dicoding',
+      is_delete: false,
+      replies: []
+    };
+  
+    // Action
+    const { id, content, date, username, replies } = new CommentDetail(payload);
+  
+    // Assert
+    expect(id).toEqual('comment-123');
+    expect(content).toEqual('dicoding');
+    expect(date).toEqual('2022-04-21T14:47:50.725+07:00');
+    expect(username).toEqual('dicoding');
+    expect(replies).toEqual([]);
+  });
+
 });
