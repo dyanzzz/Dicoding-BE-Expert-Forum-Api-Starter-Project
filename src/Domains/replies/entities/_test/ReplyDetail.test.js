@@ -38,11 +38,51 @@ describe('a ReplyDetail entities', () => {
     };
 
     // Action
-    const { id, content, owner } = new ReplyDetail(payload);
+    const { id, content, username } = new ReplyDetail(payload);
 
     // Assert
     expect(id).toEqual(payload.id);
     expect(content).toEqual(payload.content);
-    expect(owner).toEqual(payload.owner);
+    expect(username).toEqual(payload.username);
+  });
+
+  it('should create ReplyDetail object when comment is deleted correctly', () => {
+    // Arrange
+    const payload = {
+      id: 'reply-123',
+      content: 'content reply',
+      date: '2022-04-23T07:09:31.383+07:00',
+      username: 'user',
+      is_delete: true,
+    };
+  
+    // Action
+    const { id, content, date, username } = new ReplyDetail(payload);
+  
+    // Assert
+    expect(id).toEqual('reply-123');
+    expect(content).toEqual('**balasan telah dihapus**');
+    expect(date).toEqual('2022-04-23T07:09:31.383+07:00');
+    expect(username).toEqual('user');
+  });
+  
+  it('should create ReplyDetail object when comment is not deleted correctly', () => {
+    // Arrange
+    const payload = {
+      id: 'reply-123',
+      content: 'content reply',
+      date: '2022-04-23T07:09:31.383+07:00',
+      username: 'user',
+      is_delete: false,
+    };
+  
+    // Action
+    const { id, content, date, username } = new ReplyDetail(payload);
+  
+    // Assert
+    expect(id).toEqual('reply-123');
+    expect(content).toEqual('content reply');
+    expect(date).toEqual('2022-04-23T07:09:31.383+07:00');
+    expect(username).toEqual('user');
   });
 });
