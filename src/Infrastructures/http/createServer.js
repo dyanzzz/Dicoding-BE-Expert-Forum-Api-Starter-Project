@@ -26,6 +26,14 @@ const createServer = async (container) => {
 		},
 	])
 
+	server.route({
+		method: 'GET',
+		path: '/',
+		handler: () => ({
+			value: 'Hello World! testing cicd lagi',
+		}),
+	})
+
 	// mendefinisikan strategy autentikasi jwt
 	server.auth.strategy('forum_jwt', 'jwt', {
 		keys: process.env.ACCESS_TOKEN_KEY,
