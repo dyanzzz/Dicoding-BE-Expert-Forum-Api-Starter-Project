@@ -1,29 +1,29 @@
 class DetailThread {
-  constructor(payload) {
-      this._verifyPayload(payload);
+	constructor(payload) {
+		this._verifyPayload(payload)
 
-      const { id, title, body, date, username } = payload;
-      
-      this.id = id;
-      this.title = title;
-      this.body = body;
-      this.date = date
-      this.username = username;
-  }
+		const { id, title, body, date, username } = payload
 
-  _verifyPayload({ id, title, body, date, username }) {
-      if (!id || !title || !body || !date || !username) {
-          throw new Error('ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
-      }
+		this.id = id
+		this.title = title
+		this.body = body
+		this.date = date
+		this.username = username
+	}
 
-      if (
-          typeof id !== 'string' ||
-          typeof title !== 'string' ||
-          typeof username !== 'string'
-      ) {
-          throw new Error('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
-      }
-  }
+	_verifyPayload({ id, title, body, date, username }) {
+		if (!id || !title || !body || !date || !username) {
+			throw new Error('ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY')
+		}
+
+		if (
+			typeof id !== 'string' ||
+			typeof title !== 'string' ||
+			typeof username !== 'string'
+		) {
+			throw new Error('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
+		}
+	}
 }
 
-module.exports = DetailThread;
+module.exports = DetailThread

@@ -1,19 +1,19 @@
 class PuttedLike {
-  constructor(status) {
-    this._verifyPayload(status);
+	constructor(status) {
+		this._verifyPayload(status)
 
-    this.status = status;
-  }
+		this.status = status
+	}
 
-  _verifyPayload(status) {
-    if (!status) {
-      throw new Error('PUT_LIKE.NOT_CONTAIN_NEEDED_PROPERTY');
-    }
+	_verifyPayload(status) {
+		if (!status) {
+			throw new Error('PUT_LIKE.NOT_CONTAIN_NEEDED_PROPERTY')
+		}
 
-    if (typeof status !== 'string') {
-      throw new Error('PUT_LIKE.NOT_MEET_DATA_TYPE_SPECIFICATION');
-    }
-  }
+		if (typeof status !== 'string') {
+			throw new Error('PUT_LIKE.NOT_MEET_DATA_TYPE_SPECIFICATION')
+		}
+	}
 }
 
-module.exports = PuttedLike;
+module.exports = PuttedLike
