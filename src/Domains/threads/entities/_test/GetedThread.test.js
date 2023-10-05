@@ -1,84 +1,87 @@
-const GetedThread = require('../GetedThread');
+const GetedThread = require('../GetedThread')
 
 describe('a GetedThread entities', () => {
-  it('should throw error when payload did not contain needed property', () => {
-    // Arrange to remove field id to get error
-    const payload = {
-      title: 'dicoding',
-      body: 'Dicoding-Indonesia',
-      date: '2021-08-08T07:19:09.775Z',
-      username: 'dicoding',
-    };
+	it('should throw error when payload did not contain needed property', () => {
+		// Arrange to remove field id to get error
+		const payload = {
+			title: 'dicoding',
+			body: 'Dicoding-Indonesia',
+			date: '2021-08-08T07:19:09.775Z',
+			username: 'dicoding',
+		}
 
-    const comments = [
-      {
-        id: "comment-123",
-        username: "dicoding",
-        date: "2021-08-08T07:22:33.555Z",
-        content: "sebuah comment"
-      },
-    ];
-    
-    payload.comments = comments
+		const comments = [
+			{
+				id: 'comment-123',
+				username: 'dicoding',
+				date: '2021-08-08T07:22:33.555Z',
+				content: 'sebuah comment',
+			},
+		]
 
-    // Action and Assert
-    expect(() => new GetedThread(payload)).toThrowError('ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
-  });
+		payload.comments = comments
 
-  it('should throw error when payload did not meet data type specification', () => {
-    // Arrange
-    const payload = {
-      id: 123,
-      title: 'dicoding',
-      body: 'Dicoding-Indonesia',
-      date: '2021-08-08T07:19:09.775Z',
-      username: 'dicoding',
-    };
+		// Action and Assert
+		expect(() => new GetedThread(payload)).toThrowError(
+			'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY'
+		)
+	})
 
-    const comments = [
-      {
-        id: "comment-123",
-        username: "dicoding",
-        date: "2021-08-08T07:22:33.555Z",
-        content: "sebuah comment"
-      },
-    ];
+	it('should throw error when payload did not meet data type specification', () => {
+		// Arrange
+		const payload = {
+			id: 123,
+			title: 'dicoding',
+			body: 'Dicoding-Indonesia',
+			date: '2021-08-08T07:19:09.775Z',
+			username: 'dicoding',
+		}
 
-    payload.comments = comments
+		const comments = [
+			{
+				id: 'comment-123',
+				username: 'dicoding',
+				date: '2021-08-08T07:22:33.555Z',
+				content: 'sebuah comment',
+			},
+		]
 
-    // Action and Assert
-    expect(() => new GetedThread(payload)).toThrowError('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
-  });
+		payload.comments = comments
 
-  it('should create GetedThread object correctly', () => {
-    // Arrange
-    const payload = {
-      id: 'thread-123',
-      title: 'dicoding',
-      body: 'Dicoding-Indonesia',
-      date: '2021-08-08T07:19:09.775Z',
-      username: 'dicoding',
-    };
+		// Action and Assert
+		expect(() => new GetedThread(payload)).toThrowError(
+			'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
+		)
+	})
 
-    const comments = [
-      {
-        id: "comment-123",
-        username: "dicoding",
-        date: "2021-08-08T07:22:33.555Z",
-        content: "sebuah comment"
-      },
-    ];
+	it('should create GetedThread object correctly', () => {
+		// Arrange
+		const payload = {
+			id: 'thread-123',
+			title: 'dicoding',
+			body: 'Dicoding-Indonesia',
+			date: '2021-08-08T07:19:09.775Z',
+			username: 'dicoding',
+		}
 
-    payload.comments = comments
+		const comments = [
+			{
+				id: 'comment-123',
+				username: 'dicoding',
+				date: '2021-08-08T07:22:33.555Z',
+				content: 'sebuah comment',
+			},
+		]
 
-    // Action
-    const getedThread = new GetedThread(payload);
+		payload.comments = comments
 
-    // Assert
-    expect(getedThread.id).toEqual(payload.id);
-    expect(getedThread.title).toEqual(payload.title);
-    expect(getedThread.owner).toEqual(payload.owner);
-    expect(getedThread.comments.id).toEqual(payload.comments.id);
-  });
+		// Action
+		const getedThread = new GetedThread(payload)
 
-});
+		// Assert
+		expect(getedThread.id).toEqual(payload.id)
+		expect(getedThread.title).toEqual(payload.title)
+		expect(getedThread.owner).toEqual(payload.owner)
+		expect(getedThread.comments.id).toEqual(payload.comments.id)
+	})
+})
