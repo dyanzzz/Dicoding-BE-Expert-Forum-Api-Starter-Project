@@ -20,6 +20,7 @@ describe('a CommentDetail entities', () => {
       content: 'dicoding',
       date: '2022-04-21T14:47:50.725+07:00',
       username: 'dicoding',
+      like_count: 2,
       replies: []
     };
 
@@ -35,6 +36,7 @@ describe('a CommentDetail entities', () => {
       date: '2022-04-21T14:47:50.725+07:00',
       username: 'dicoding',
       is_delete: false,
+      like_count: 2,
       replies: []
     };
 
@@ -54,6 +56,7 @@ describe('a CommentDetail entities', () => {
       date: '2022-04-21T14:47:50.725+07:00',
       username: 'dicoding',
       is_delete: true,
+      like_count: 2,
       replies: []
     };
   
@@ -76,6 +79,7 @@ describe('a CommentDetail entities', () => {
       date: '2022-04-21T14:47:50.725+07:00',
       username: 'dicoding',
       is_delete: false,
+      like_count: 2,
       replies: []
     };
   

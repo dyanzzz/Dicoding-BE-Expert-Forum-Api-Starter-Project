@@ -28,7 +28,7 @@ exports.up = (pgm) => {
     },
     is_delete: {
       type: 'BOOLEAN',
-      default: false
+      default: false,
     },
   });
 

@@ -169,6 +169,7 @@ describe('CommentRepositoryPostgres', () => {
         content: 'dicoding',
         date: '2022-04-19 04:18:51.806',
         is_delete: false,
+        like_count: 0,
         username: 'dicoding'
       })
     });

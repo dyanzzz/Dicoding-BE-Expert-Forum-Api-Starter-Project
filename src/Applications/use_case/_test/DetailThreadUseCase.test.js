@@ -25,6 +25,7 @@ describe('DetailThreadUseCase', () => {
               date: "2021-08-08T07:22:33.555Z",
               content: "sebuah comment",
               is_delete: false,
+              like_count: 0,
               replies: [
                   new ReplyDetail({
                       id: 'reply-123',
@@ -41,6 +42,7 @@ describe('DetailThreadUseCase', () => {
               date: "2021-08-08T07:22:33.555Z",
               content: "comment",
               is_delete: true,
+              like_count: 0,
               replies: [
                   new ReplyDetail({
                       id: 'reply-124',
@@ -78,6 +80,7 @@ describe('DetailThreadUseCase', () => {
         date: "2021-08-08T07:22:33.555Z",
         content: "sebuah comment",
         is_delete: false,
+        like_count: 0,
       },
       {
         id: 'comment-124',
@@ -86,6 +89,7 @@ describe('DetailThreadUseCase', () => {
         date: new Date('2021-08-08T07:22:33.555Z'),
         username: 'dicoding',
         is_delete: true,
+        like_count: 0,
       },
     ]));
 
