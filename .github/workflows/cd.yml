@@ -20,7 +20,6 @@ jobs:
                   script: |
                       cd ~/Dicoding-Forum-Api-Starter-Project
                       git pull origin master
-                      npm audit fix --force
                       npm install
                       npm run migrate up
                       pm2 restart forum-api
