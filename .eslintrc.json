@@ -5,11 +5,12 @@
 		"node": true,
 		"jest": true
 	},
-	"extends": ["airbnb-base"],
+	"extends": ["eslint:recommended"],
 	"parserOptions": {
 		"ecmaVersion": "latest"
 	},
 	"rules": {
+		"sonarjs/no-identical-expressions": "off",
 		"linebreak-style": "off",
 		"no-console": "off",
 		"max-len": 0,
