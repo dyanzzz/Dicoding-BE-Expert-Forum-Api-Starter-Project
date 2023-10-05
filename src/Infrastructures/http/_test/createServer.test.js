@@ -52,9 +52,7 @@ describe('HTTP server', () => {
 			// Assert
 			const responseJson = JSON.parse(response.payload)
 			expect(response.statusCode).toEqual(200)
-			expect(responseJson.value).toEqual(
-				'Hello World MasBro! testing cicd lagi'
-			)
+			expect(responseJson.value).toEqual('Hello World! testing cicd lagi')
 		})
 	})
 })
