@@ -35,7 +35,7 @@ server {
 		proxy_pass http://localhost:5001;
 	}
 	
-	location /threads/ {
+	location /threads {
 		proxy_pass http://localhost:5001;
 	
 		limit_req zone=threads_limit;
